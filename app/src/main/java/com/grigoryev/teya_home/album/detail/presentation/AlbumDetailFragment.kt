@@ -28,13 +28,13 @@ class AlbumDetailFragment : Fragment(R.layout.fragment_album_detail) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupViews()
+        initBackButton()
         listenScreenModel()
     }
 
-    private fun setupViews() {
-        binding.toolbar.setNavigationOnClickListener {
-            parentFragmentManager.popBackStack()
+    private fun initBackButton() {
+        binding.btnBack.setOnClickListener {
+            requireActivity().onBackPressed()
         }
     }
 

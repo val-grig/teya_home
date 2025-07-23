@@ -5,19 +5,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark_gray_background"
-    android:padding="16dp">
+    >
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="0dp"
+    <FrameLayout
+        android:id="@+id/btnBack"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/dark_gray_primary"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:layout_constraintTop_toTopOf="parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackgroundBorderless"
+        android:padding="24dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:navigationIcon="?android:attr/homeAsUpIndicator"
-        />
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center_vertical|start"
+            android:background="@drawable/ic_back_arrow"
+            />
+
+    </FrameLayout>
 
     <ImageView
         android:id="@+id/imageViewAlbumCover"
@@ -25,81 +35,105 @@
         android:layout_height="200dp"
         android:background="@drawable/ic_launcher_background"
         android:scaleType="centerCrop"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toTopOf="@+id/textViewAlbumTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/textViewAlbumTitle"
+        app:layout_constraintTop_toBottomOf="@id/btnBack"
         app:layout_constraintVertical_chainStyle="packed"
-        tools:src="@drawable/ic_launcher_foreground" />
+        tools:src="@drawable/ic_launcher_foreground"
+        />
 
     <TextView
         android:id="@+id/textViewAlbumTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
         android:layout_marginTop="24dp"
+        android:layout_marginRight="12dp"
+        android:ellipsize="end"
         android:gravity="center"
+        android:maxLines="3"
         android:textSize="24sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textViewArtist"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewAlbumCover"
-        app:layout_constraintBottom_toTopOf="@+id/textViewArtist"
-        tools:text="Album Title" />
+        tools:text="Album Title"
+        />
 
     <TextView
         android:id="@+id/textViewArtist"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
         android:layout_marginTop="8dp"
+        android:layout_marginRight="12dp"
+        android:ellipsize="end"
         android:gravity="center"
+        android:maxLines="3"
         android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewReleaseDate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewAlbumTitle"
-        app:layout_constraintBottom_toTopOf="@+id/textViewReleaseDate"
-        tools:text="Artist Name" />
+        tools:text="Artist Name"
+        />
 
     <TextView
         android:id="@+id/textViewReleaseDate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
         android:layout_marginTop="16dp"
+        android:layout_marginRight="12dp"
+        android:ellipsize="end"
         android:gravity="center"
-        android:textSize="14sp"
+        android:maxLines="3"
         android:textColor="?android:attr/textColorSecondary"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewGenre"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewArtist"
-        app:layout_constraintBottom_toTopOf="@+id/textViewGenre"
-        tools:text="Released: January 1, 2024" />
+        tools:text="Released: January 1, 2024"
+        />
 
     <TextView
         android:id="@+id/textViewGenre"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
         android:layout_marginTop="8dp"
+        android:layout_marginRight="12dp"
+        android:ellipsize="end"
         android:gravity="center"
-        android:textSize="14sp"
+        android:maxLines="3"
         android:textColor="?android:attr/textColorSecondary"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewTrackCount"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewReleaseDate"
-        app:layout_constraintBottom_toTopOf="@+id/textViewTrackCount"
-        tools:text="Genre: Pop" />
+        tools:text="Genre: Pop"
+        />
 
     <TextView
         android:id="@+id/textViewTrackCount"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
         android:layout_marginTop="8dp"
+        android:layout_marginRight="12dp"
         android:gravity="center"
-        android:textSize="14sp"
         android:textColor="?android:attr/textColorSecondary"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewPrice"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewGenre"
-        app:layout_constraintBottom_toTopOf="@+id/textViewPrice"
-        tools:text="Tracks: 12" />
+        tools:text="Tracks: 12"
+        />
 
     <TextView
         android:id="@+id/textViewPrice"
@@ -107,13 +141,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:gravity="center"
+        android:textColor="?attr/colorPrimary"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:textColor="?attr/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewTrackCount"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:text="$9.99 USD" />
+        tools:text="$9.99 USD"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout> 
