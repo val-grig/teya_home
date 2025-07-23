@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">teya_home</string>
+    <string name="no_albums_found">Альбомы не найдены</string>
+    <string name="albums">Альбомы</string>
+</resources>
