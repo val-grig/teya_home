@@ -17,7 +17,6 @@ data class AlbumListModelState(
 
 data class AlbumListUIState(
     val listItems: List<DelegateBaseItemModel> = emptyList(),
-    val showInitialLoading: Boolean = true
 )
 
 sealed class AlbumListScreenEvent {
@@ -28,12 +27,13 @@ sealed class AlbumListScreenEvent {
 
 @HiltViewModel
 class AlbumListViewModel @Inject constructor(
+    mapper: AlbumListScreenMapper,
     private val getAlbumsUseCase: GetAlbumsUseCase,
     private val loadAlbumsUseCase: LoadAlbumsUseCase
 ) : StateViewModel<AlbumListModelState, AlbumListUIState, AlbumListScreenEvent>(
     initModelState = AlbumListModelState(),
     initScreenState = AlbumListUIState(),
-    mapper = AlbumListScreenMapper()
+    mapper = mapper
 ) {
 
     init {

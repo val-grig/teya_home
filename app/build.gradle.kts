@@ -83,6 +83,9 @@ dependencies {
     
     // Fragment animations
     implementation("androidx.fragment:fragment-ktx:1.6.2")
+    
+    // Shimmer effect
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
 }
 
 kapt {

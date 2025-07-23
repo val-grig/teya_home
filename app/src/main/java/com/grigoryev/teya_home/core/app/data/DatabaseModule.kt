@@ -20,6 +20,7 @@ object DatabaseModule {
     }
     
     @Provides
+    @Singleton
     fun provideAlbumDao(database: AppDatabase): AlbumDao {
         return database.albumDao()
     }
