@@ -6,19 +6,21 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.grigoryev.teya_home.R
 import com.grigoryev.teya_home.album.detail.presentation.AlbumDetailFragment
 import com.grigoryev.teya_home.album.detail.presentation.AlbumDetailFragment.*
 import com.grigoryev.teya_home.album.list.domain.model.AlbumModel
+import com.grigoryev.teya_home.album.list.presentation.list.AlbumItemViewHolder
+import com.grigoryev.teya_home.album.list.presentation.list.AlbumListScreenAdapter
 import com.grigoryev.teya_home.core.mvi.delegate_adapter.DelegateAdapterEventListener
+import com.grigoryev.teya_home.core.util.applyStatusBarPadding
 import com.grigoryev.teya_home.core.util.launchAndCollectLatestIn
 import com.grigoryev.teya_home.core.util.setSlideAnimType
 import com.grigoryev.teya_home.core.util.viewBinding
 import com.grigoryev.teya_home.databinding.FragmentAlbumListBinding
 import dagger.hilt.android.AndroidEntryPoint
-import com.google.android.material.snackbar.Snackbar
-import com.grigoryev.teya_home.album.list.presentation.list.AlbumItemViewHolder
-import com.grigoryev.teya_home.album.list.presentation.list.AlbumListScreenAdapter
+
 
 @AndroidEntryPoint
 class AlbumListScreenFragment : Fragment(R.layout.fragment_album_list) {
@@ -41,6 +43,8 @@ class AlbumListScreenFragment : Fragment(R.layout.fragment_album_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.root.applyStatusBarPadding(additionalTopPaddingDp = 12)
+
         setupRecyclerView()
         listenScreenModel()
     }

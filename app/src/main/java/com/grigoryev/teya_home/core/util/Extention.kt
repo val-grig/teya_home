@@ -18,6 +18,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlin.math.ceil
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 
 fun <T : ViewBinding> Fragment.viewBinding(viewBindingFactory: (View) -> T) =
     ViewBindingDelegate(this, viewBindingFactory)
@@ -83,5 +86,13 @@ fun FragmentTransaction.setSlideAnimType(): FragmentTransaction {
             R.anim.slide_in_left,
             R.anim.slide_out_right,
         )
+    }
+}
+
+fun View.applyStatusBarPadding(additionalTopPaddingDp: Int = 0) {
+    ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
+        val statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
+        view.updatePadding(top = statusBarHeight + additionalTopPaddingDp.dpToPx())
+        insets
     }
 }

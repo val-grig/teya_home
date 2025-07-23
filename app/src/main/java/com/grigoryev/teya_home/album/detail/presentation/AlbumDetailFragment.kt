@@ -1,6 +1,5 @@
 package com.grigoryev.teya_home.album.detail.presentation
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
@@ -8,12 +7,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 import com.grigoryev.teya_home.R
 import com.grigoryev.teya_home.album.list.domain.model.AlbumModel
+import com.grigoryev.teya_home.core.util.applyStatusBarPadding
 import com.grigoryev.teya_home.core.util.launchAndCollectLatestIn
 import com.grigoryev.teya_home.core.util.viewBinding
 import com.grigoryev.teya_home.databinding.FragmentAlbumDetailBinding
@@ -27,6 +23,7 @@ class AlbumDetailFragment : Fragment(R.layout.fragment_album_detail) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.root.applyStatusBarPadding(additionalTopPaddingDp = 12)
 
         initBackButton()
         listenScreenModel()
@@ -56,15 +53,15 @@ class AlbumDetailFragment : Fragment(R.layout.fragment_album_detail) {
         binding.textViewReleaseDate.text = if (state.releaseDate.isNotEmpty()) {
             getString(R.string.album_detail_released_template, state.releaseDate)
         } else ""
-        
+
         binding.textViewGenre.text = if (state.genre.isNotEmpty()) {
             getString(R.string.album_detail_genre_template, state.genre)
         } else ""
-        
+
         binding.textViewTrackCount.text = if (state.trackCount.isNotEmpty()) {
             getString(R.string.album_detail_tracks_template, state.trackCount)
         } else ""
-        
+
         binding.textViewPrice.text = state.price
     }
 
