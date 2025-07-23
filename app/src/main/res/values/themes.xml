@@ -2,7 +2,14 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Teya_home" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/dark_gray_primary</item>
+        <item name="colorPrimaryVariant">@color/dark_gray_primary</item>
+        <item name="colorSurface">@color/dark_gray_surface</item>
+        <item name="android:colorBackground">@color/dark_gray_background</item>
+        <item name="android:windowBackground">@color/dark_gray_background</item>
+        <item name="colorOnSurface">@color/white</item>
+        <item name="colorOnBackground">@color/white</item>
+        <item name="colorSurfaceVariant">@color/dark_gray_surface_variant</item>
     </style>
 
     <style name="Theme.Teya_home" parent="Base.Theme.Teya_home" />
