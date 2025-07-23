@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Teya Home</string>
+    <string name="app_name">Teya</string>
     <string name="teya_logo">App Icon</string>
     <string name="teya_tagline">Simple app</string>
     <string name="app_version">Version 1.0.0</string>
@@ -10,4 +10,15 @@
     <string name="album_detail_released_template">Released: %s</string>
     <string name="album_detail_genre_template">Genre: %s</string>
     <string name="album_detail_tracks_template">Tracks: %s</string>
+    
+    <!-- Rate App Screen -->
+    <string name="rate_app_title">Rate the job</string>
+    
+    <!-- Rate Messages -->
+    <string name="rate_message_1">Oh no! 😔 I\'m really sorry to hear that. I\'ll work harder to make it better next time!</string>
+    <string name="rate_message_2">Hmm, not quite there yet. I appreciate your honesty and will improve!</string>
+    <string name="rate_message_3">Thanks for the feedback!  I\'m glad it was okay, but I know it can be better.</string>
+    <string name="rate_message_4">Great! 😄 I\'m happy you liked it! Thanks for the positive feedback!</string>
+    <string name="rate_message_5">Amazing! 🎉 I\'m thrilled you loved it! Your satisfaction makes my day!</string>
+    <string name="rate_message_default">Thanks for rating! 😊</string>
 </resources>

@@ -2,6 +2,7 @@ package com.grigoryev.teya_home.core.app.data
 
 import android.content.Context
 import com.grigoryev.teya_home.album.detail.presentation.FormatDateUtil
+import com.grigoryev.teya_home.core.util.GetRateMessageUtil
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,5 +16,10 @@ object PresentationModule {
     @Provides
     fun provideFormatDateUseCase(@ApplicationContext context: Context): FormatDateUtil {
         return FormatDateUtil(context)
+    }
+    
+    @Provides
+    fun provideGetRateMessageUtil(@ApplicationContext context: Context): GetRateMessageUtil {
+        return GetRateMessageUtil(context)
     }
 }

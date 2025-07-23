@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.grigoryev.teya_home.R
@@ -19,7 +20,11 @@ import com.grigoryev.teya_home.core.util.launchAndCollectLatestIn
 import com.grigoryev.teya_home.core.util.setSlideAnimType
 import com.grigoryev.teya_home.core.util.viewBinding
 import com.grigoryev.teya_home.databinding.FragmentAlbumListBinding
+import com.grigoryev.teya_home.databinding.ItemRateMeBinding
+import com.grigoryev.teya_home.album.list.presentation.list.RateMeViewHolder
+import com.grigoryev.teya_home.album.list.presentation.list.RateMeModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -35,7 +40,10 @@ class AlbumListScreenFragment : Fragment(R.layout.fragment_album_list) {
                     val model = payload as? AlbumModel ?: return
                     viewModel.onAlbumClicked(model)
                 }
-
+                RateMeViewHolder.RATING_EVENT_ID -> {
+                    val rating = payload as? Int ?: return
+                    viewModel.onRatingSubmitted(rating)
+                }
                 else -> error("unknown event : ${eventId}")
             }
         }
@@ -78,12 +86,19 @@ class AlbumListScreenFragment : Fragment(R.layout.fragment_album_list) {
             is AlbumListScreenEvent.HideError -> {
                 hideErrorSnackbar()
             }
+            
+            is AlbumListScreenEvent.ShowAlertMessage -> {
+                showAlertMessage(event.message)
+            }
         }
     }
 
     private fun setupRecyclerView() {
         binding.recyclerViewAlbums.layoutManager = LinearLayoutManager(context)
         binding.recyclerViewAlbums.adapter = screenAdapter
+        binding.recyclerViewAlbums.itemAnimator = DefaultItemAnimator().apply {
+            supportsChangeAnimations = false
+        }
     }
 
     private fun showErrorSnackbar() {
@@ -103,5 +118,13 @@ class AlbumListScreenFragment : Fragment(R.layout.fragment_album_list) {
     private fun hideErrorSnackbar() {
         snackbar?.dismiss()
         snackbar = null
+    }
+    
+    private fun showAlertMessage(message: String) {
+        Snackbar.make(
+            binding.root,
+            message,
+            Snackbar.LENGTH_LONG
+        ).show()
     }
 }

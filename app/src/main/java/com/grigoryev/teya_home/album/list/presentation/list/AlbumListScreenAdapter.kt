@@ -8,6 +8,7 @@ import com.grigoryev.teya_home.core.mvi.delegate_adapter.DelegateListAdapter
 import com.grigoryev.teya_home.core.util.viewBinding
 import com.grigoryev.teya_home.databinding.ItemAlbumBinding
 import com.grigoryev.teya_home.databinding.ItemShimmerBinding
+import com.grigoryev.teya_home.databinding.ItemRateMeBinding
 
 class AlbumListScreenAdapter(
     private val listener: DelegateAdapterEventListener
@@ -32,6 +33,15 @@ class AlbumListScreenAdapter(
                     )
                 )
             }
+            R.layout.item_rate_me -> {
+                RateMeViewHolder(
+                    listener = listener,
+                    binding = parent.viewBinding(
+                        ItemRateMeBinding::inflate,
+                        false
+                    )
+                )
+            }
             else -> error("unknown view type : $viewType")
         }
     }
@@ -40,6 +50,7 @@ class AlbumListScreenAdapter(
         return when (getItem(position)) {
             is AlbumItemModel -> R.layout.item_album
             is ShimmerItemModel -> R.layout.item_shimmer
+            is RateMeModel -> R.layout.item_rate_me
             else -> error("unknown type : ${getItem(position)}")
         }
     }

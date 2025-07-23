@@ -17,4 +17,10 @@ abstract class RepositoryModule {
     abstract fun bindAlbumRepository(
         albumRepositoryImpl: AlbumRepositoryImpl
     ): AlbumRepository
+    
+    @Binds
+    @Singleton
+    abstract fun bindPreferencesRepository(
+        preferencesRepositoryImpl: PreferencesRepositoryImpl
+    ): PreferencesRepository
 } 
