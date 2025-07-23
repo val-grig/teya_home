@@ -15,6 +15,7 @@ import com.grigoryev.teya_home.core.util.viewBinding
 import com.grigoryev.teya_home.databinding.FragmentAlbumDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.parcelize.Parcelize
+import com.google.android.material.snackbar.Snackbar
 
 @AndroidEntryPoint
 class AlbumDetailFragment : Fragment(R.layout.fragment_album_detail) {
@@ -78,6 +79,14 @@ class AlbumDetailFragment : Fragment(R.layout.fragment_album_detail) {
             is AlbumDetailScreenEvent.ShowError -> Unit
             is AlbumDetailScreenEvent.ShowImageLoadError -> {
                 Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+            }
+            is AlbumDetailScreenEvent.ConnectionStatus -> {
+                val message = if (event.isConnected) {
+                    getString(R.string.connection_restored)
+                } else {
+                    getString(R.string.connection_lost)
+                }
+                Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
             }
         }
     }

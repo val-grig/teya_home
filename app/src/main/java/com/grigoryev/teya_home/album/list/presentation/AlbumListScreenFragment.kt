@@ -71,6 +71,7 @@ class AlbumListScreenFragment : Fragment(R.layout.fragment_album_list) {
     private fun onEvent(event: AlbumListScreenEvent) {
         when (event) {
             is AlbumListScreenEvent.NavigateToDetails -> {
+                hideErrorSnackbar()
                 val detailFragment = AlbumDetailFragment.newInstance(NavigationParams(event.albumModel))
                 parentFragmentManager.commit {
                     setSlideAnimType()
@@ -90,6 +91,15 @@ class AlbumListScreenFragment : Fragment(R.layout.fragment_album_list) {
             is AlbumListScreenEvent.ShowAlertMessage -> {
                 showAlertMessage(event.message)
             }
+            
+            is AlbumListScreenEvent.ConnectionStatus -> {
+                val message = if (event.isConnected) {
+                    getString(R.string.connection_restored)
+                } else {
+                    getString(R.string.connection_lost)
+                }
+                Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -102,8 +112,6 @@ class AlbumListScreenFragment : Fragment(R.layout.fragment_album_list) {
     }
 
     private fun showErrorSnackbar() {
-        hideErrorSnackbar()
-
         snackbar = Snackbar.make(
             binding.root,
             R.string.loading_failed_message,

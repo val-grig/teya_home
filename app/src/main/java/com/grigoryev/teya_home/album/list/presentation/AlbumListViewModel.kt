@@ -13,6 +13,11 @@ import com.grigoryev.teya_home.core.util.launchAndCollectLatestIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.grigoryev.teya_home.core.app.data.ConnectionEvent
+import com.grigoryev.teya_home.core.app.data.ConnectionRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import com.grigoryev.teya_home.core.app.domain.GetConnectionUseCase
 
 data class AlbumListModelState(
     val allAlbums: List<AlbumModel> = emptyList(),
@@ -28,6 +33,7 @@ sealed class AlbumListScreenEvent {
     data object HideError : AlbumListScreenEvent()
     data class NavigateToDetails(val albumModel: AlbumModel) : AlbumListScreenEvent()
     data class ShowAlertMessage(val message: String) : AlbumListScreenEvent()
+    data class ConnectionStatus(val isConnected: Boolean) : AlbumListScreenEvent()
 }
 
 @HiltViewModel
@@ -37,6 +43,7 @@ class AlbumListViewModel @Inject constructor(
     private val loadAlbumsUseCase: LoadAlbumsUseCase,
     private val saveRateUseCase: SaveRateUseCase,
     private val getRateUseCase: GetRateUseCase,
+    private val getConnectionUseCase: GetConnectionUseCase,
     private val getRateMessageUtil: GetRateMessageUtil
 ) : StateViewModel<AlbumListModelState, AlbumListUIState, AlbumListScreenEvent>(
     initModelState = AlbumListModelState(),
@@ -46,6 +53,7 @@ class AlbumListViewModel @Inject constructor(
 
     init {
         loadData()
+        observeConnection()
     }
 
     fun onRetryLoadingPressed() = loadData()
@@ -70,5 +78,22 @@ class AlbumListViewModel @Inject constructor(
         saveRateUseCase.invoke(rating)
         updateModelState { it.copy(currentRating = rating) }
         emitScreenEvent(AlbumListScreenEvent.ShowAlertMessage(getRateMessageUtil.getMessage(rating)))
+    }
+
+    private fun observeConnection()  {
+        getConnectionUseCase.invoke().launchAndCollectLatestIn(viewModelScope) { event ->
+            when (event) {
+                is ConnectionEvent.ConnectionLost -> {
+                    emitScreenEvent(AlbumListScreenEvent.ConnectionStatus(false))
+                }
+
+                is ConnectionEvent.ConnectionRecovered -> {
+                    if (getModelState().allAlbums.isEmpty()) {
+                        loadData()
+                    }
+                    emitScreenEvent(AlbumListScreenEvent.ConnectionStatus(true))
+                }
+            }
+        }
     }
 }

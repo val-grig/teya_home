@@ -23,4 +23,10 @@ abstract class RepositoryModule {
     abstract fun bindPreferencesRepository(
         preferencesRepositoryImpl: PreferencesRepositoryImpl
     ): PreferencesRepository
+    
+    @Binds
+    @Singleton
+    abstract fun bindConnectionRepository(
+        connectionRepositoryImpl: ConnectionRepositoryImpl
+    ): ConnectionRepository
 } 

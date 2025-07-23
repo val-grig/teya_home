@@ -3,7 +3,7 @@
     <string name="teya_logo">App Icon</string>
     <string name="teya_tagline">Simple app</string>
     <string name="app_version">Version 1.0.0</string>
-    <string name="loading_failed_message">Oops! Something went wrong. Tap Retry to try again.</string>
+    <string name="loading_failed_message">Oops! Can\'t load albums. Tap Retry to try again.</string>
     <string name="retry">Retry</string>
     
     <!-- Album Detail Screen -->
@@ -21,4 +21,8 @@
     <string name="rate_message_4">Great! 😄 I\'m happy you liked it! Thanks for the positive feedback!</string>
     <string name="rate_message_5">Amazing! 🎉 I\'m thrilled you loved it! Your satisfaction makes my day!</string>
     <string name="rate_message_default">Thanks for rating! 😊</string>
+
+    <!-- connection -->
+    <string name="connection_lost">Oops... no internet</string>
+    <string name="connection_restored">Internet is back!</string>
 </resources>
