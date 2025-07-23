@@ -27,7 +27,7 @@ class AlbumDetailFragment : Fragment(R.layout.fragment_album_detail) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
+
         setupViews()
         listenScreenModel()
     }
@@ -46,14 +46,26 @@ class AlbumDetailFragment : Fragment(R.layout.fragment_album_detail) {
     }
 
     private fun onState(state: AlbumDetailUIState) {
-        binding.apply {
-            textViewAlbumTitle.text = state.title
-            textViewArtist.text = state.artist
+        binding.textViewAlbumTitle.text = state.title
+        binding.textViewArtist.text = state.artist
 
-            if (state.coverUrl.isNotEmpty()) {
-                loadImage(state.coverUrl)
-            }
+        if (state.coverUrl.isNotEmpty()) {
+            loadImage(state.coverUrl)
         }
+
+        binding.textViewReleaseDate.text = if (state.releaseDate.isNotEmpty()) {
+            getString(R.string.album_detail_released_template, state.releaseDate)
+        } else ""
+        
+        binding.textViewGenre.text = if (state.genre.isNotEmpty()) {
+            getString(R.string.album_detail_genre_template, state.genre)
+        } else ""
+        
+        binding.textViewTrackCount.text = if (state.trackCount.isNotEmpty()) {
+            getString(R.string.album_detail_tracks_template, state.trackCount)
+        } else ""
+        
+        binding.textViewPrice.text = state.price
     }
 
     private fun loadImage(imageUrl: String) {
@@ -65,7 +77,7 @@ class AlbumDetailFragment : Fragment(R.layout.fragment_album_detail) {
     }
 
     private fun onEvent(event: AlbumDetailScreenEvent) {
-        when(event) {
+        when (event) {
             is AlbumDetailScreenEvent.ShowError -> Unit
             is AlbumDetailScreenEvent.ShowImageLoadError -> {
                 Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
@@ -78,7 +90,7 @@ class AlbumDetailFragment : Fragment(R.layout.fragment_album_detail) {
 
     companion object {
         const val NAVIGATION_PARAM_BUNDLE_KEY = "navigation_params"
-        
+
         fun newInstance(params: NavigationParams): AlbumDetailFragment {
             return AlbumDetailFragment().apply {
                 arguments = Bundle().apply {

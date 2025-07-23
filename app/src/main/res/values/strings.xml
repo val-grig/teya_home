@@ -2,4 +2,9 @@
     <string name="app_name">teya_home</string>
     <string name="loading_failed_message">Oops! Something went wrong. Tap Retry to try again.</string>
     <string name="retry">Retry</string>
+    
+    <!-- Album Detail Screen -->
+    <string name="album_detail_released_template">Released: %s</string>
+    <string name="album_detail_genre_template">Genre: %s</string>
+    <string name="album_detail_tracks_template">Tracks: %s</string>
 </resources>

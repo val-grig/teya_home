@@ -22,7 +22,13 @@ data class Entry(
     @SerializedName("im:image")
     val images: List<Image>,
     @SerializedName("im:releaseDate")
-    val releaseDate: ReleaseDate
+    val releaseDate: ReleaseDate,
+    @SerializedName("im:price")
+    val price: Price,
+    @SerializedName("im:contentType")
+    val contentType: ContentType,
+    @SerializedName("category")
+    val category: Category
 )
 
 data class Id(
@@ -67,6 +73,46 @@ data class ReleaseDate(
 )
 
 data class ReleaseDateAttributes(
+    @SerializedName("label")
+    val label: String
+)
+
+data class Price(
+    @SerializedName("label")
+    val label: String,
+    @SerializedName("attributes")
+    val attributes: PriceAttributes
+)
+
+data class PriceAttributes(
+    @SerializedName("amount")
+    val amount: String,
+    @SerializedName("currency")
+    val currency: String
+)
+
+data class ContentType(
+    @SerializedName("label")
+    val label: String,
+    @SerializedName("attributes")
+    val attributes: ContentTypeAttributes
+)
+
+data class ContentTypeAttributes(
+    @SerializedName("term")
+    val term: String,
+    @SerializedName("label")
+    val label: String
+)
+
+data class Category(
+    @SerializedName("attributes")
+    val attributes: CategoryAttributes
+)
+
+data class CategoryAttributes(
+    @SerializedName("term")
+    val term: String,
     @SerializedName("label")
     val label: String
 ) 

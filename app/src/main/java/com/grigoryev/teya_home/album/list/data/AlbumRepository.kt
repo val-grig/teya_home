@@ -30,6 +30,11 @@ class AlbumRepositoryImpl @Inject constructor(
                 title = entry.name.label,
                 artist = entry.artist.label,
                 coverUrl = entry.images.lastOrNull()?.label,
+                releaseDate = entry.releaseDate.label,
+                genre = entry.category.attributes.label,
+                trackCount = null,
+                price = entry.price.attributes.amount,
+                currency = entry.price.attributes.currency
             )
         }
 

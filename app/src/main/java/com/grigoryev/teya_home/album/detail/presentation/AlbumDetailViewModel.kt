@@ -16,6 +16,10 @@ data class AlbumDetailUIState(
     val title: String = "",
     val artist: String = "",
     val coverUrl: String = "",
+    val releaseDate: String = "",
+    val genre: String = "",
+    val trackCount: String = "",
+    val price: String = ""
 )
 
 sealed class AlbumDetailScreenEvent {
@@ -26,10 +30,11 @@ sealed class AlbumDetailScreenEvent {
 @HiltViewModel
 class AlbumDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
+    private val mapper: AlbumDetailScreenMapper
 ) : StateViewModel<AlbumDetailModelState, AlbumDetailUIState, AlbumDetailScreenEvent>(
     initModelState = AlbumDetailModelState(savedStateHandle.getNavParams().albumModel),
     initScreenState = AlbumDetailUIState(),
-    mapper = AlbumDetailScreenMapper()
+    mapper = mapper
 ) {
     init {
         viewModelScope.launch {

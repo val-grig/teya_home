@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">teya_home</string>
+    <string name="loading_failed_message">Упс! Что-то пошло не так. Нажмите Повторить, чтобы попробовать снова.</string>
+    <string name="retry">Повторить</string>
+    
+    <!-- Album Detail Screen -->
+    <string name="album_detail_released_template">Выпущен: %s</string>
+    <string name="album_detail_genre_template">Жанр: %s</string>
+    <string name="album_detail_tracks_template">Треков: %s</string>
+</resources> 

@@ -9,7 +9,7 @@ import com.grigoryev.teya_home.album.list.data.entity.AlbumEntity
 
 @Database(
     entities = [AlbumEntity::class],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
