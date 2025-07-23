@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.onSubscription
 import kotlinx.coroutines.withContext
 
-internal abstract class StateViewModel<ModelState, UIState, ScreenEvent>(
+abstract class StateViewModel<ModelState, UIState, ScreenEvent>(
     initModelState: ModelState,
     initScreenState: UIState,
     screenCache: ModelState? = null,
