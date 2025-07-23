@@ -1,8 +1,7 @@
-package com.grigoryev.teya_home.core.di
+package com.grigoryev.teya_home.core.app.data
 
 import android.content.Context
 import com.grigoryev.teya_home.album.list.data.dao.AlbumDao
-import com.grigoryev.teya_home.album.list.data.database.AppDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

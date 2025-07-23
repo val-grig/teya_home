@@ -1,8 +1,14 @@
+import org.gradle.kotlin.dsl.annotationProcessor
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.hilt)
     kotlin("kapt")
+}
+
+hilt {
+    enableAggregatingTask = false
 }
 
 android {
@@ -17,6 +23,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        
+        buildConfigField("String", "ITUNES_BASE_URL", "\"https://itunes.apple.com/\"")
     }
 
     buildTypes {
@@ -26,14 +34,15 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -50,11 +59,18 @@ dependencies {
     // Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
-    
+    annotationProcessor(libs.hilt.compiler)
+
     // Room
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     kapt(libs.room.compiler)
+    
+    // Retrofit & OkHttp
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging)
     
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

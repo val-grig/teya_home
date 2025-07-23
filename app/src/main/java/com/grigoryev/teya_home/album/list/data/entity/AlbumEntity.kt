@@ -11,4 +11,4 @@ data class AlbumEntity(
     val artist: String,
     val coverUrl: String?,
     val year: Int?
-) 
+)

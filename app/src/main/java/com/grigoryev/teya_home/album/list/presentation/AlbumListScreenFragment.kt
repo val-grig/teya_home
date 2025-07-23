@@ -10,8 +10,10 @@ import com.grigoryev.teya_home.core.mvi.delegate_adapter.DelegateAdapterEventLis
 import com.grigoryev.teya_home.core.util.launchAndCollectLatestIn
 import com.grigoryev.teya_home.core.util.viewBinding
 import com.grigoryev.teya_home.databinding.FragmentAlbumListBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlin.getValue
 
+@AndroidEntryPoint
 class AlbumListScreenFragment : Fragment(R.layout.fragment_album_list) {
     private val binding by viewBinding(FragmentAlbumListBinding::bind)
     private val viewModel by viewModels<AlbumListViewModel>()

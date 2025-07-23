@@ -1,12 +1,18 @@
 package com.grigoryev.teya_home.album.list.presentation
 
 import androidx.lifecycle.viewModelScope
+import com.grigoryev.teya_home.album.list.domain.GetAlbumsUseCase
+import com.grigoryev.teya_home.album.list.domain.LoadAlbumsUseCase
+import com.grigoryev.teya_home.album.list.domain.model.AlbumModel
 import com.grigoryev.teya_home.core.mvi.StateViewModel
 import com.grigoryev.teya_home.core.mvi.delegate_adapter.DelegateBaseItemModel
+import com.grigoryev.teya_home.core.util.launchAndCollectLatestIn
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 data class AlbumListModelState(
-    val albums: List<AlbumItemModel> = emptyList(),
+    val allAlbums: List<AlbumModel> = emptyList(),
 )
 
 data class AlbumListUIState(
@@ -18,32 +24,36 @@ sealed class AlbumListScreenEvent {
     object ShowError : AlbumListScreenEvent()
 }
 
-class AlbumListViewModel : StateViewModel<AlbumListModelState, AlbumListUIState, AlbumListScreenEvent>(
+@HiltViewModel
+class AlbumListViewModel @Inject constructor(
+    private val getAlbumsUseCase: GetAlbumsUseCase,
+    private val loadAlbumsUseCase: LoadAlbumsUseCase
+) : StateViewModel<AlbumListModelState, AlbumListUIState, AlbumListScreenEvent>(
     initModelState = AlbumListModelState(),
     initScreenState = AlbumListUIState(),
     mapper = AlbumListScreenMapper()
 ) {
 
     init {
-        viewModelScope.launch {
-            loadAlbums()
+        loadAlbums()
+    }
+
+    private fun loadAlbums() = viewModelScope.launch {
+        runCatching {
+            loadAlbumsUseCase.invoke()
+        }.onFailure { showError(it) }
+
+        getAlbumsUseCase.invoke().launchAndCollectLatestIn(viewModelScope) { albums ->
+            updateModelState { it.copy(allAlbums = albums) }
+            mapScreenState()
         }
     }
 
-    private suspend fun loadAlbums() {
-        val sampleAlbums = listOf(
-            AlbumItemModel("1", "The Dark Side of the Moon", "Pink Floyd"),
-            AlbumItemModel("2", "Abbey Road", "The Beatles"),
-            AlbumItemModel("3", "Thriller", "Michael Jackson"),
-            AlbumItemModel("4", "Back in Black", "AC/DC"),
-            AlbumItemModel("5", "The Wall", "Pink Floyd")
-        )
+    fun onAlbumClicked(model: AlbumItemModel) = viewModelScope.launch {
 
-        updateModelState { it.copy(albums = sampleAlbums) }
-        mapScreenState()
     }
 
-    fun onAlbumClicked(model: AlbumItemModel) = viewModelScope.launch {
+    private fun showError(error: Throwable) {
 
     }
 }

@@ -43,3 +43,12 @@ inline fun <T> Flow<T>.launchAndCollectLatestIn(
         }
     }
 }
+
+inline fun <T> Flow<T>.launchAndCollectLatestIn(
+    coroutineScope: CoroutineScope,
+    crossinline action: suspend CoroutineScope.(T) -> Unit
+) = coroutineScope.launch {
+    collectLatest {
+        action(it)
+    }
+}
