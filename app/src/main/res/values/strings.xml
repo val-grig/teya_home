@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">teya_home</string>
-    <string name="no_albums_found">Альбомы не найдены</string>
-    <string name="albums">Альбомы</string>
+    <string name="loading_failed_message">Oops! Something went wrong. Tap Retry to try again.</string>
+    <string name="retry">Retry</string>
 </resources>

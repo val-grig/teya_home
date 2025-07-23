@@ -17,6 +17,7 @@ class AlbumListScreenMapper : StateScreenMapper<AlbumListModelState, AlbumListUI
                 listId = albumModel.id.toString(),
                 title = albumModel.title,
                 subtitle = albumModel.artist,
+                imageUrl = albumModel.coverUrl,
                 payload = albumModel
             )
         }

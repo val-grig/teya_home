@@ -21,7 +21,8 @@ data class AlbumListUIState(
 )
 
 sealed class AlbumListScreenEvent {
-    object ShowError : AlbumListScreenEvent()
+    data object ShowError : AlbumListScreenEvent()
+    data object HideError : AlbumListScreenEvent()
     data class NavigateToDetails(val albumModel: AlbumModel) : AlbumListScreenEvent()
 }
 
@@ -39,7 +40,10 @@ class AlbumListViewModel @Inject constructor(
         loadAlbums()
     }
 
+    fun onRetryLoadingPressed() = loadAlbums()
+
     private fun loadAlbums() = viewModelScope.launch {
+        emitScreenEvent(AlbumListScreenEvent.HideError)
         getAlbumsUseCase.invoke().launchAndCollectLatestIn(viewModelScope) { albums ->
             updateModelState { it.copy(allAlbums = albums) }
             mapScreenState()
@@ -47,14 +51,10 @@ class AlbumListViewModel @Inject constructor(
 
         runCatching {
             loadAlbumsUseCase.invoke()
-        }.onFailure { showError(it) }
+        }.onFailure { emitScreenEvent(AlbumListScreenEvent.ShowError) }
     }
 
     fun onAlbumClicked(model: AlbumModel) = viewModelScope.launch {
         emitScreenEvent(AlbumListScreenEvent.NavigateToDetails(model))
-    }
-
-    private fun showError(error: Throwable) {
-
     }
 }
