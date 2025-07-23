@@ -1,4 +1,4 @@
-package com.grigoryev.teya_home.album.list.presentation
+package com.grigoryev.teya_home.album.list.presentation.list
 
 import android.view.ViewGroup
 import com.grigoryev.teya_home.R

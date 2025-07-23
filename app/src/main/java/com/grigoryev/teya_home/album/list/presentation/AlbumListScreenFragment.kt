@@ -17,6 +17,8 @@ import com.grigoryev.teya_home.core.util.viewBinding
 import com.grigoryev.teya_home.databinding.FragmentAlbumListBinding
 import dagger.hilt.android.AndroidEntryPoint
 import com.google.android.material.snackbar.Snackbar
+import com.grigoryev.teya_home.album.list.presentation.list.AlbumItemViewHolder
+import com.grigoryev.teya_home.album.list.presentation.list.AlbumListScreenAdapter
 
 @AndroidEntryPoint
 class AlbumListScreenFragment : Fragment(R.layout.fragment_album_list) {

@@ -1,6 +1,8 @@
 package com.grigoryev.teya_home.album.list.presentation
 
 import com.grigoryev.teya_home.album.list.domain.model.AlbumModel
+import com.grigoryev.teya_home.album.list.presentation.list.AlbumItemModel
+import com.grigoryev.teya_home.album.list.presentation.list.ShimmerItemModel
 import com.grigoryev.teya_home.core.mvi.StateScreenMapper
 import javax.inject.Inject
 

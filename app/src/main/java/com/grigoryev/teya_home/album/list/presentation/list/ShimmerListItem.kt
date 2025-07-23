@@ -1,6 +1,5 @@
-package com.grigoryev.teya_home.album.list.presentation
+package com.grigoryev.teya_home.album.list.presentation.list
 
-import com.facebook.shimmer.ShimmerFrameLayout
 import com.grigoryev.teya_home.core.mvi.delegate_adapter.DelegateBaseItemModel
 import com.grigoryev.teya_home.core.mvi.delegate_adapter.DelegateBaseViewHolder
 import com.grigoryev.teya_home.databinding.ItemShimmerBinding
