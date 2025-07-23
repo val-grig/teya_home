@@ -22,7 +22,6 @@ class GetAlbumsUseCase @Inject constructor(private val repository: AlbumReposito
                 title = albumEntity.title,
                 artist = albumEntity.artist,
                 coverUrl = albumEntity.coverUrl ?: return@mapNotNull null,
-                year = albumEntity.year ?: return@mapNotNull null
             )
         }
     }

@@ -30,11 +30,9 @@ class AlbumRepositoryImpl @Inject constructor(
                 title = entry.name.label,
                 artist = entry.artist.label,
                 coverUrl = entry.images.lastOrNull()?.label,
-                year = entry.releaseDate.attributes.label.toIntOrNull()
             )
         }
-        
-        albumDao.deleteAllAlbums()
+
         albumDao.insertAlbums(albums)
     }
 }

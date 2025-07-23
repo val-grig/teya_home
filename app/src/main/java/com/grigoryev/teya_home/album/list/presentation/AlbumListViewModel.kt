@@ -39,14 +39,14 @@ class AlbumListViewModel @Inject constructor(
     }
 
     private fun loadAlbums() = viewModelScope.launch {
-        runCatching {
-            loadAlbumsUseCase.invoke()
-        }.onFailure { showError(it) }
-
         getAlbumsUseCase.invoke().launchAndCollectLatestIn(viewModelScope) { albums ->
             updateModelState { it.copy(allAlbums = albums) }
             mapScreenState()
         }
+
+        runCatching {
+            loadAlbumsUseCase.invoke()
+        }.onFailure { showError(it) }
     }
 
     fun onAlbumClicked(model: AlbumItemModel) = viewModelScope.launch {

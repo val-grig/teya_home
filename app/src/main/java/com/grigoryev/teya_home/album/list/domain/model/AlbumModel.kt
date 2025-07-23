@@ -5,5 +5,4 @@ data class AlbumModel(
     val title: String,
     val artist: String,
     val coverUrl: String,
-    val year: Int
 )
