@@ -10,6 +10,10 @@
         <item name="colorOnSurface">@color/white</item>
         <item name="colorOnBackground">@color/white</item>
         <item name="colorSurfaceVariant">@color/dark_gray_surface_variant</item>
+        
+        <!-- Simple splash screen -->
+        <item name="android:windowSplashScreenBackground">@color/dark_gray_icon</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_teya_logo</item>
     </style>
 
     <style name="Theme.Teya_home" parent="Base.Theme.Teya_home" />
