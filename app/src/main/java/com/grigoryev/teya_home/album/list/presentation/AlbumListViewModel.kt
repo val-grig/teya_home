@@ -22,6 +22,7 @@ data class AlbumListUIState(
 
 sealed class AlbumListScreenEvent {
     object ShowError : AlbumListScreenEvent()
+    data class NavigateToDetails(val albumModel: AlbumModel) : AlbumListScreenEvent()
 }
 
 @HiltViewModel
@@ -49,8 +50,8 @@ class AlbumListViewModel @Inject constructor(
         }.onFailure { showError(it) }
     }
 
-    fun onAlbumClicked(model: AlbumItemModel) = viewModelScope.launch {
-
+    fun onAlbumClicked(model: AlbumModel) = viewModelScope.launch {
+        emitScreenEvent(AlbumListScreenEvent.NavigateToDetails(model))
     }
 
     private fun showError(error: Throwable) {
