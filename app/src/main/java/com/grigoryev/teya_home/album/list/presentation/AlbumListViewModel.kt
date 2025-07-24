@@ -89,6 +89,7 @@ class AlbumListViewModel @Inject constructor(
     fun onRatingSubmitted(rating: Int) = viewModelScope.launch {
         saveRateUseCase.invoke(rating)
         updateModelState { it.copy(currentRating = rating) }
+        mapScreenState()
         emitScreenEvent(AlbumListScreenEvent.ShowAlertMessage(getStringUtil.getRateMessage(rating)))
     }
 
