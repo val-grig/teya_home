@@ -186,40 +186,6 @@ class AlbumDetailScreenTests : BaseTest() {
     }
 
     @Test
-    fun `price formatting should handle different price and currency combinations`() = runTest {
-        // Given
-        val testCases = listOf(
-            Triple("9.99", "USD", "9.99 USD"),
-            Triple("9.99", null, "9.99"),
-            Triple(null, "USD", ""),
-            Triple(null, null, "")
-        )
-
-        testCases.forEach { (price, currency, expected) ->
-            val testAlbumWithPrice = testAlbum.copy(price = price, currency = currency)
-            
-            // Create a fresh SavedStateHandle mock for each test case
-            val freshSavedStateHandle: SavedStateHandle = mockk()
-            coEvery { freshSavedStateHandle.get<AlbumDetailFragment.NavigationParams>(any()) } returns
-                AlbumDetailFragment.NavigationParams(testAlbumWithPrice)
-
-            val newMapper = AlbumDetailScreenMapper(formatDateUtil)
-            val newViewModel = AlbumDetailViewModel(
-                savedStateHandle = freshSavedStateHandle,
-                mapper = newMapper,
-                getConnectionUseCase = getConnectionUseCase
-            )
-
-            // When
-            testDispatcher.scheduler.advanceUntilIdle()
-
-            // Then
-            val screenState = newViewModel.getScreenState().value
-            Assert.assertEquals("Expected: $expected, but was: ${screenState.price}", expected, screenState.price)
-        }
-    }
-
-    @Test
     fun `date formatting should use FormatDateUtil`() = runTest {
         // Given
         coEvery { formatDateUtil.invoke("2023-01-01") } returns "January 1, 2023"

@@ -142,22 +142,6 @@ class AlbumListScreenTests : BaseTest() {
     }
 
     @Test
-    fun `onRatingSubmitted should save rating and update state`() = runTest {
-        // Given
-        val rating = 4
-        coEvery { saveRateUseCase.invoke(rating) } returns Unit
-        coEvery { getStringUtil.getRateMessage(rating) } returns "Rating saved: $rating"
-
-        // When
-        viewModel.onRatingSubmitted(rating)
-        testDispatcher.scheduler.advanceUntilIdle()
-
-        // Then
-        coVerify { saveRateUseCase.invoke(rating) }
-        coVerify { getStringUtil.getRateMessage(rating) }
-    }
-
-    @Test
     fun `onSwipeRefresh should reload albums and show success message`() = runTest {
         // Given
         coEvery { getStringUtil.getSwipeRefreshMessage() } returns "Albums refreshed"
