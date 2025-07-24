@@ -16,6 +16,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.grigoryev.teya_home.core.app.data.ConnectionEvent
 import com.grigoryev.teya_home.core.app.domain.GetConnectionUseCase
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 
 data class AlbumListModelState(
     val allAlbums: List<AlbumModel> = emptyList(),
@@ -36,6 +38,7 @@ sealed class AlbumListScreenEvent {
 
 @HiltViewModel
 class AlbumListViewModel @Inject constructor(
+    mainDispatcher: CoroutineDispatcher = Dispatchers.Main,
     mapper: AlbumListScreenMapper,
     private val getAlbumsUseCase: GetAlbumsUseCase,
     private val loadAlbumsUseCase: LoadAlbumsUseCase,
@@ -44,6 +47,7 @@ class AlbumListViewModel @Inject constructor(
     private val getConnectionUseCase: GetConnectionUseCase,
     private val getStringUtil: GetStringUtil
 ) : StateViewModel<AlbumListModelState, AlbumListUIState, AlbumListScreenEvent>(
+    mainDispatcher = mainDispatcher,
     initModelState = AlbumListModelState(),
     initScreenState = AlbumListUIState(),
     mapper = mapper

@@ -64,6 +64,7 @@ class AlbumDetailScreenTests : BaseTest() {
 
     private fun createViewModel(): AlbumDetailViewModel {
         return AlbumDetailViewModel(
+            mainDispatcher = testDispatcher,
             savedStateHandle = savedStateHandle,
             mapper = mapper,
             getConnectionUseCase = getConnectionUseCase

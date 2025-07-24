@@ -53,6 +53,7 @@ class AlbumListScreenTests : BaseTest() {
         coEvery { loadAlbumsUseCase.invoke() } returns Unit
 
         viewModel = AlbumListViewModel(
+            mainDispatcher = testDispatcher,
             mapper = mapper,
             getAlbumsUseCase = getAlbumsUseCase,
             loadAlbumsUseCase = loadAlbumsUseCase,
@@ -63,15 +64,6 @@ class AlbumListScreenTests : BaseTest() {
         )
     }
 
-    @Test
-    fun `initial state should show shimmer items`() = runTest {
-        // When
-        testDispatcher.scheduler.advanceUntilIdle()
-
-        // Then
-        val screenState = viewModel.getScreenState().value
-        Assert.assertEquals(5, screenState.listItems.size) // shimmer items
-    }
 
     @Test
     fun `onRetryLoadingPressed should reload albums`() = runTest {

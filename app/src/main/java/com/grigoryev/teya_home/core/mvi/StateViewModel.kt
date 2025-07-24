@@ -1,6 +1,7 @@
 package com.grigoryev.teya_home.core.mvi
 
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
@@ -14,6 +15,7 @@ abstract class StateViewModel<ModelState, UIState, ScreenEvent>(
     initModelState: ModelState,
     initScreenState: UIState,
     screenCache: ModelState? = null,
+    private val mainDispatcher: CoroutineDispatcher = Dispatchers.Main,
     private val mapper: StateScreenMapper<ModelState, UIState>?
 ) : ViewModel() {
     private val bufferedEvents = mutableListOf<ScreenEvent>()
@@ -43,18 +45,19 @@ abstract class StateViewModel<ModelState, UIState, ScreenEvent>(
     }
 
     protected suspend fun mapScreenState(
+        dispatcher: CoroutineDispatcher = Dispatchers.Main,
         onCompleteFunction: (suspend () -> Unit)? = null
     ) = withContext(Dispatchers.Default) {
         val uiState = mapper?.map(modelState) ?: return@withContext
 
-        withContext(Dispatchers.Main) {
+        withContext(dispatcher) {
             uiStateStream.emit(uiState)
             onCompleteFunction?.invoke()
         }
     }
 
-    protected suspend fun emitScreenEvent(event: ScreenEvent, emitComplete: (suspend () -> Unit)? = null) =
-        withContext(Dispatchers.Main) {
+    protected suspend fun emitScreenEvent(event: ScreenEvent, emitComplete: (suspend () -> Unit)? = null) {
+        withContext(mainDispatcher) {
             if (eventStream.subscriptionCount.value == 0) {
                 bufferedEvents.add(event)
             } else {
@@ -63,4 +66,5 @@ abstract class StateViewModel<ModelState, UIState, ScreenEvent>(
 
             emitComplete?.invoke()
         }
+    }
 }

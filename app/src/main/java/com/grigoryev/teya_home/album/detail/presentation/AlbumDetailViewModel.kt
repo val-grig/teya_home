@@ -8,6 +8,8 @@ import com.grigoryev.teya_home.core.app.domain.GetConnectionUseCase
 import com.grigoryev.teya_home.core.mvi.StateViewModel
 import com.grigoryev.teya_home.core.util.launchAndCollectLatestIn
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -33,10 +35,12 @@ sealed class AlbumDetailScreenEvent {
 
 @HiltViewModel
 class AlbumDetailViewModel @Inject constructor(
+    mainDispatcher: CoroutineDispatcher = Dispatchers.Main,
     savedStateHandle: SavedStateHandle,
     private val mapper: AlbumDetailScreenMapper,
     private val getConnectionUseCase: GetConnectionUseCase
 ) : StateViewModel<AlbumDetailModelState, AlbumDetailUIState, AlbumDetailScreenEvent>(
+    mainDispatcher = mainDispatcher,
     initModelState = AlbumDetailModelState(savedStateHandle.getNavParams().albumModel),
     initScreenState = AlbumDetailUIState(),
     mapper = mapper
@@ -47,13 +51,14 @@ class AlbumDetailViewModel @Inject constructor(
         }
         observeConnection()
     }
-    
+
     private fun observeConnection() {
         getConnectionUseCase.invoke().launchAndCollectLatestIn(viewModelScope) { event ->
             when (event) {
                 is ConnectionEvent.ConnectionLost -> {
                     emitScreenEvent(AlbumDetailScreenEvent.ConnectionStatus(false))
                 }
+
                 is ConnectionEvent.ConnectionRecovered -> {
                     emitScreenEvent(AlbumDetailScreenEvent.ConnectionStatus(true))
                 }
@@ -63,5 +68,6 @@ class AlbumDetailViewModel @Inject constructor(
 }
 
 private fun SavedStateHandle.getNavParams(): AlbumDetailFragment.NavigationParams {
-    return this.get<AlbumDetailFragment.NavigationParams>(AlbumDetailFragment.Companion.NAVIGATION_PARAM_BUNDLE_KEY) ?: throw IllegalArgumentException("Album model is required")
+    return this.get<AlbumDetailFragment.NavigationParams>(AlbumDetailFragment.Companion.NAVIGATION_PARAM_BUNDLE_KEY)
+        ?: throw IllegalArgumentException("Album model is required")
 }
