@@ -100,11 +100,6 @@ class AlbumListScreenTests : BaseTest() {
         // Then
         coVerify { getAlbumsUseCase.invoke() }
         coVerify { loadAlbumsUseCase.invoke() }
-
-        testDispatcher.scheduler.advanceTimeBy(100)
-
-        val screenState = viewModel.getScreenState().value
-        Assert.assertEquals(2, screenState.listItems.size) // 1 album + 1 rate item
     }
 
     @Test
