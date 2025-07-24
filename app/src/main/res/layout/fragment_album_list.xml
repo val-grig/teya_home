@@ -14,21 +14,24 @@
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:clipToPadding="false"
+        android:clipChildren="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewAlbums"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
             android:clipChildren="false"
             android:clipToPadding="false"
-            tools:listitem="@layout/item_album"
             android:paddingBottom="124dp"
+            tools:listitem="@layout/item_album"
             />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
