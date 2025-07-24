@@ -40,10 +40,12 @@ class AlbumListScreenFragment : Fragment(R.layout.fragment_album_list) {
                     val model = payload as? AlbumModel ?: return
                     viewModel.onAlbumClicked(model)
                 }
+
                 RateMeViewHolder.RATING_EVENT_ID -> {
                     val rating = payload as? Int ?: return
                     viewModel.onRatingSubmitted(rating)
                 }
+
                 else -> error("unknown event : ${eventId}")
             }
         }
@@ -54,6 +56,7 @@ class AlbumListScreenFragment : Fragment(R.layout.fragment_album_list) {
         binding.root.applyStatusBarPadding(additionalTopPaddingDp = 12)
 
         setupRecyclerView()
+        setupSwipeRefreshLayout()
         listenScreenModel()
     }
 
@@ -66,6 +69,7 @@ class AlbumListScreenFragment : Fragment(R.layout.fragment_album_list) {
 
     private fun onState(state: AlbumListUIState) {
         screenAdapter.submitList(state.listItems)
+        binding.swipeRefreshLayout.isRefreshing = false
     }
 
     private fun onEvent(event: AlbumListScreenEvent) {
@@ -87,11 +91,11 @@ class AlbumListScreenFragment : Fragment(R.layout.fragment_album_list) {
             is AlbumListScreenEvent.HideError -> {
                 hideErrorSnackbar()
             }
-            
+
             is AlbumListScreenEvent.ShowAlertMessage -> {
                 showAlertMessage(event.message)
             }
-            
+
             is AlbumListScreenEvent.ConnectionStatus -> {
                 val message = if (event.isConnected) {
                     getString(R.string.connection_restored)
@@ -111,6 +115,13 @@ class AlbumListScreenFragment : Fragment(R.layout.fragment_album_list) {
         }
     }
 
+    private fun setupSwipeRefreshLayout() {
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            binding.swipeRefreshLayout.isRefreshing = false
+            viewModel.onSwipeRefresh()
+        }
+    }
+
     private fun showErrorSnackbar() {
         snackbar = Snackbar.make(
             binding.root,
@@ -127,7 +138,7 @@ class AlbumListScreenFragment : Fragment(R.layout.fragment_album_list) {
         snackbar?.dismiss()
         snackbar = null
     }
-    
+
     private fun showAlertMessage(message: String) {
         Snackbar.make(
             binding.root,

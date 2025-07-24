@@ -1,6 +1,7 @@
 package com.grigoryev.teya_home.album.list.presentation
 
 import androidx.lifecycle.viewModelScope
+import com.bumptech.glide.Glide.init
 import com.grigoryev.teya_home.album.list.domain.GetAlbumsUseCase
 import com.grigoryev.teya_home.album.list.domain.LoadAlbumsUseCase
 import com.grigoryev.teya_home.album.list.domain.SaveRateUseCase
@@ -8,15 +9,12 @@ import com.grigoryev.teya_home.album.list.domain.GetRateUseCase
 import com.grigoryev.teya_home.album.list.domain.model.AlbumModel
 import com.grigoryev.teya_home.core.mvi.StateViewModel
 import com.grigoryev.teya_home.core.mvi.delegate_adapter.DelegateBaseItemModel
-import com.grigoryev.teya_home.core.util.GetRateMessageUtil
+import com.grigoryev.teya_home.core.util.GetStringUtil
 import com.grigoryev.teya_home.core.util.launchAndCollectLatestIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.grigoryev.teya_home.core.app.data.ConnectionEvent
-import com.grigoryev.teya_home.core.app.data.ConnectionRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
 import com.grigoryev.teya_home.core.app.domain.GetConnectionUseCase
 
 data class AlbumListModelState(
@@ -44,7 +42,7 @@ class AlbumListViewModel @Inject constructor(
     private val saveRateUseCase: SaveRateUseCase,
     private val getRateUseCase: GetRateUseCase,
     private val getConnectionUseCase: GetConnectionUseCase,
-    private val getRateMessageUtil: GetRateMessageUtil
+    private val getStringUtil: GetStringUtil
 ) : StateViewModel<AlbumListModelState, AlbumListUIState, AlbumListScreenEvent>(
     initModelState = AlbumListModelState(),
     initScreenState = AlbumListUIState(),
@@ -52,13 +50,23 @@ class AlbumListViewModel @Inject constructor(
 ) {
 
     init {
-        loadData()
+        init()
         observeConnection()
     }
 
-    fun onRetryLoadingPressed() = loadData()
+    fun onRetryLoadingPressed() = init()
 
-    private fun loadData() = viewModelScope.launch {
+    fun onSwipeRefresh() = viewModelScope.launch {
+        runCatching {
+            loadAlbumsUseCase.invoke()
+        }.onFailure {
+            emitScreenEvent(AlbumListScreenEvent.ShowError)
+        }.onSuccess {
+            emitScreenEvent(AlbumListScreenEvent.ShowAlertMessage(getStringUtil.getSwipeRefreshMessage()))
+        }
+    }
+
+    private fun init() = viewModelScope.launch {
         emitScreenEvent(AlbumListScreenEvent.HideError)
         getAlbumsUseCase.invoke().launchAndCollectLatestIn(viewModelScope) { albums ->
             updateModelState { it.copy(allAlbums = albums, currentRating = getRateUseCase.invoke()) }
@@ -77,10 +85,10 @@ class AlbumListViewModel @Inject constructor(
     fun onRatingSubmitted(rating: Int) = viewModelScope.launch {
         saveRateUseCase.invoke(rating)
         updateModelState { it.copy(currentRating = rating) }
-        emitScreenEvent(AlbumListScreenEvent.ShowAlertMessage(getRateMessageUtil.getMessage(rating)))
+        emitScreenEvent(AlbumListScreenEvent.ShowAlertMessage(getStringUtil.getRateMessage(rating)))
     }
 
-    private fun observeConnection()  {
+    private fun observeConnection() {
         getConnectionUseCase.invoke().launchAndCollectLatestIn(viewModelScope) { event ->
             when (event) {
                 is ConnectionEvent.ConnectionLost -> {
@@ -89,7 +97,7 @@ class AlbumListViewModel @Inject constructor(
 
                 is ConnectionEvent.ConnectionRecovered -> {
                     if (getModelState().allAlbums.isEmpty()) {
-                        loadData()
+                        init()
                     }
                     emitScreenEvent(AlbumListScreenEvent.ConnectionStatus(true))
                 }
